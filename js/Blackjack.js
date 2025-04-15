@@ -3,30 +3,34 @@ import { Hand } from "./Hand.js"
 
 export class BlackjackGame {
   constructor() {
-    this.holeCard = null
     this.dealerHand = new Hand(true)
     this.yourHand = new Hand()
     this.deck = new Deck()
     this.canHit = true
     this.message = ""
+    this.showHoleCard = false
+    this.dealerTotal = 0
+    this.yourTotal = 0
+    this.isPlaying = false
   }
 
   startGame() {
+    this.isPlaying = true
     this.deck.shuffle()
 
     // Deal hidden card to dealer
-    this.holeCard = this.deck.deal() // do we need this hole card specific?
-    this.dealerHand.addCard(this.holeCard)
+    const card = this.deck.deal() // do we need this hole card specific?
+    this.dealerHand.addCard(card)
 
     // Dealer draws until value is at least 17
     while (this.dealerHand.getValue() < 17) {
-      let card = this.deck.deal()
+      const card = this.deck.deal()
       this.dealerHand.addCard(card)
     }
 
     // Deal two cards to the player
     for (let i = 0; i < 2; i++) {
-      let card = this.deck.deal()
+      const card = this.deck.deal()
       this.yourHand.addCard(card)
     }
     // take these out when done developing
@@ -41,7 +45,7 @@ export class BlackjackGame {
       return
     }
 
-    let card = this.deck.deal()
+    const card = this.deck.deal()
     this.yourHand.addCard(card)
     console.log("you", this.yourHand.getValue())
 
@@ -54,32 +58,29 @@ export class BlackjackGame {
   }
 
   stand() {
-    const dealerSum = this.handleAce(
+    this.dealerTotal = this.handleAce(
       this.dealerHand.getValue(),
       this.dealerHand.aceCount()
     )
-    const yourSum = this.handleAce(
+    this.yourTotal = this.handleAce(
       this.yourHand.getValue(),
       this.yourHand.aceCount()
     )
 
-    console.log("dealerSum in stand ", dealerSum)
-    console.log("yourSum in stand ", yourSum)
-
     this.canHit = false
+    this.showHoleCard = true
 
-    if (yourSum > 21) {
-      this.message = "You Lose!"
-    } else if (dealerSum > 21) {
-      this.message = "You Win!"
-    } else if (yourSum === dealerSum) {
+    if (this.yourTotal > 21) {
+      this.message = "Dealer Wins!"
+    } else if (this.dealerTotal > 21) {
+      this.message = "Player Wins!"
+    } else if (this.yourTotal === this.dealerTotal) {
       this.message = "Push!"
-    } else if (yourSum > dealerSum) {
-      this.message = "You Win!"
-    } else if (dealerSum > yourSum) {
-      this.message = "You Lose!"
+    } else if (this.yourTotal > this.dealerTotal) {
+      this.message = "Player Wins!"
+    } else if (this.dealerTotal > this.yourTotal) {
+      this.message = "Dealer Wins!"
     }
-    console.log("game over", this.message)
   }
 
   handleAce(playerSum, playerAceCount) {

@@ -7,25 +7,26 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
-    <h1>Blackjack</h1>
     <div>
-      <h3>Outcome</h3>
       <div id="outcome"></div>
     </div>
+    <h1>Blackjack</h1>
     <button id="startGame">Start Game</button>
-    <button id="hit">Hit</button>
-    <button id="stay">Stay</button>
-    <div>
-      <h3>Dealer's Hand:</h3>
-      <div id="dealerHand"></div>
-    </div>
-    <div>
-      <h3>Your Hand:</h3>
-      <div id="yourHand"></div>
-    </div>
-    <div>
-      <h3>Your Total:</h3>
-      <div id="yourHandValue"></div>
+    <div id="gamePlayContainer" style="display: none">
+      <div>
+        <h3>Dealer <span id="dealerHandValue"></span></h3>
+        <div id="dealerHand"></div>
+      </div>
+      <div></div>
+      <div>
+        <h3>Player <span id="yourHandValue"></span></h3>
+        <div id="yourHand"></div>
+      </div>
+      <div></div>
+      <div>
+        <button id="hit">Hit</button>
+        <button id="stand">Stand</button>
+      </div>
     </div>
     <script type="module" src="js/app.js"></script>
   </body>
