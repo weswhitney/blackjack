@@ -24,6 +24,11 @@ function updateHandTotals() {
   dealerHandValueElement.textContent = `${game.dealerTotal}`
 }
 
+function updateClearDealerTotal() {
+  const dealerHandValueElement = document.getElementById("dealerHandValue")
+  dealerHandValueElement.textContent = ""
+}
+
 function updateOutcome() {
   const outcomeElement = document.getElementById("outcome")
   outcomeElement.textContent = `${game.message}`
@@ -75,6 +80,7 @@ document.getElementById("startGame").addEventListener("click", () => {
   updateDealerHand()
   updateYourHandValue()
   updateYourHand()
+  updateClearDealerTotal()
 })
 
 document.getElementById("hit").addEventListener("click", () => {
@@ -86,7 +92,6 @@ document.getElementById("hit").addEventListener("click", () => {
 document.getElementById("stand").addEventListener("click", () => {
   game.stand()
   updateDealerHand()
-  updateYourHandValue()
   updateHandTotals()
   updateOutcome()
 })

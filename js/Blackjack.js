@@ -14,12 +14,24 @@ export class BlackjackGame {
     this.isPlaying = false
   }
 
-  startGame() {
+  resetState() {
     this.isPlaying = true
+    this.canHit = true
+    this.message = ""
+    this.showHoleCard = false
+    this.dealerTotal = 0
+    this.yourTotal = 0
+    this.dealerHand = new Hand(true)
+    this.yourHand = new Hand()
+    this.deck = new Deck()
     this.deck.shuffle()
+  }
+
+  startGame() {
+    this.resetState()
 
     // Deal hidden card to dealer
-    const card = this.deck.deal() // do we need this hole card specific?
+    const card = this.deck.deal()
     this.dealerHand.addCard(card)
 
     // Dealer draws until value is at least 17
