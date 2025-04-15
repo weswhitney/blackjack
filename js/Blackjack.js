@@ -8,13 +8,14 @@ export class BlackjackGame {
     this.yourHand = new Hand()
     this.deck = new Deck()
     this.canHit = true
+    this.message = ""
   }
 
   startGame() {
     this.deck.shuffle()
 
     // Deal hidden card to dealer
-    this.holeCard = this.deck.deal()
+    this.holeCard = this.deck.deal() // do we need this hole card specific?
     this.dealerHand.addCard(this.holeCard)
 
     // Dealer draws until value is at least 17
@@ -28,7 +29,7 @@ export class BlackjackGame {
       let card = this.deck.deal()
       this.yourHand.addCard(card)
     }
-
+    // take these out when done developing
     console.log("dealer hand ", this.dealerHand)
     console.log("your hand ", this.yourHand)
     console.log("dealer ", this.dealerHand.getValue())
@@ -67,19 +68,18 @@ export class BlackjackGame {
 
     this.canHit = false
 
-    let message = ""
     if (yourSum > 21) {
-      message = "You Lose!"
+      this.message = "You Lose!"
     } else if (dealerSum > 21) {
-      message = "You Win!"
+      this.message = "You Win!"
     } else if (yourSum === dealerSum) {
-      message = "Push!"
+      this.message = "Push!"
     } else if (yourSum > dealerSum) {
-      message = "You Win!"
+      this.message = "You Win!"
     } else if (dealerSum > yourSum) {
-      message = "You Lose!"
+      this.message = "You Lose!"
     }
-    console.log("game over", message)
+    console.log("game over", this.message)
   }
 
   handleAce(playerSum, playerAceCount) {
