@@ -34,6 +34,11 @@ function updateOutcome() {
   outcomeElement.textContent = `${game.message}`
 }
 
+function updateClearOutcome() {
+  const outcomeElement = document.getElementById("outcome")
+  outcomeElement.textContent = ""
+}
+
 function updateYourHand() {
   const yourHandElement = document.getElementById("yourHand")
   yourHandElement.innerHTML = ""
@@ -74,6 +79,16 @@ function updateDealerHand() {
   })
 }
 
+function updateHideStartButton() {
+  const startButtonElement = document.getElementById("startGame")
+  startButtonElement.style.display = "none"
+}
+
+function updateShowStartButton() {
+  const startButtonElement = document.getElementById("startGame")
+  startButtonElement.style.display = "block"
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("startGame").addEventListener("click", () => {
     game.startGame()
@@ -82,6 +97,8 @@ document.addEventListener("DOMContentLoaded", () => {
     updateYourHandValue()
     updateYourHand()
     updateClearDealerTotal()
+    updateClearOutcome()
+    updateHideStartButton()
   })
 
   document.getElementById("hit").addEventListener("click", () => {
@@ -95,5 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDealerHand()
     updateHandTotals()
     updateOutcome()
+    updateShowStartButton()
   })
 })
