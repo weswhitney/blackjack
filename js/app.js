@@ -74,24 +74,26 @@ function updateDealerHand() {
   })
 }
 
-document.getElementById("startGame").addEventListener("click", () => {
-  game.startGame()
-  updateGameVisibility()
-  updateDealerHand()
-  updateYourHandValue()
-  updateYourHand()
-  updateClearDealerTotal()
-})
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("startGame").addEventListener("click", () => {
+    game.startGame()
+    updateGameVisibility()
+    updateDealerHand()
+    updateYourHandValue()
+    updateYourHand()
+    updateClearDealerTotal()
+  })
 
-document.getElementById("hit").addEventListener("click", () => {
-  game.hit()
-  updateYourHandValue()
-  updateYourHand()
-})
+  document.getElementById("hit").addEventListener("click", () => {
+    game.hit()
+    updateYourHandValue()
+    updateYourHand()
+  })
 
-document.getElementById("stand").addEventListener("click", () => {
-  game.stand()
-  updateDealerHand()
-  updateHandTotals()
-  updateOutcome()
+  document.getElementById("stand").addEventListener("click", () => {
+    game.stand()
+    updateDealerHand()
+    updateHandTotals()
+    updateOutcome()
+  })
 })

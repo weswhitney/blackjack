@@ -2,7 +2,7 @@ export class Hand {
   constructor(dealer = false) {
     this.dealer = dealer
     this.cards = []
-    this.value = 0
+    // this.value = 0 // remove this
   }
 
   addCard(card) {
@@ -11,8 +11,8 @@ export class Hand {
 
   getValue() {
     return this.cards.reduce((sum, card) => {
-      let data = card.split("-")
-      let value = data[0]
+      const data = card.split("-")
+      const value = data[0]
 
       if (isNaN(value)) {
         if (value === "A") {
