@@ -21,7 +21,7 @@ body {
   height: auto;
 }
 
-#yourHand {
+#playerHand {
   display: flex;
   flex-direction: row;
   gap: 10px;
@@ -101,4 +101,5 @@ body {
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding-top: 20px;
 }

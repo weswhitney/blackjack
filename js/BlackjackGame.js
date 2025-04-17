@@ -1,16 +1,16 @@
 import { Deck } from "./Deck.js"
 import { Hand } from "./Hand.js"
-// fix name
+
 export class BlackjackGame {
   constructor() {
     this.dealerHand = new Hand(true)
-    this.yourHand = new Hand()
+    this.playerHand = new Hand()
     this.deck = new Deck()
     this.canHit = true
     this.message = ""
     this.showHoleCard = false
     this.dealerTotal = 0
-    this.yourTotal = 0
+    this.playerTotal = 0
     this.isPlaying = false
   }
 
@@ -20,9 +20,9 @@ export class BlackjackGame {
     this.message = ""
     this.showHoleCard = false
     this.dealerTotal = 0
-    this.yourTotal = 0
+    this.playerTotal = 0
     this.dealerHand = new Hand(true)
-    this.yourHand = new Hand()
+    this.playerHand = new Hand()
     this.deck = new Deck()
     this.deck.shuffle()
   }
@@ -41,23 +41,20 @@ export class BlackjackGame {
     outcomeElement.textContent = ""
   }
 
-  updateYourHandValue() {
-    const yourHandValueElement = document.getElementById("yourHandValue")
+  updatePlayerHandValue() {
+    const playerHandValueElement = document.getElementById("playerHandValue")
 
-    // Get the raw hand value and Ace count
-    const rawValue = this.yourHand.getValue()
-    const aceCount = this.yourHand.aceCount()
+    const rawValue = this.playerHand.getValue()
+    const aceCount = this.playerHand.aceCount()
 
-    // Use handleAce to calculate the adjusted value
     const adjustedValue = this.handleAce(rawValue, aceCount)
 
-    // Display the adjusted value on the UI
-    yourHandValueElement.textContent = `${adjustedValue}`
+    playerHandValueElement.textContent = `${adjustedValue}`
   }
 
   updateHandTotals() {
-    const yourHandValueElement = document.getElementById("yourHandValue")
-    yourHandValueElement.textContent = `${this.yourTotal}`
+    const playerHandValueElement = document.getElementById("playerHandValue")
+    playerHandValueElement.textContent = `${this.playerTotal}`
 
     const dealerHandValueElement = document.getElementById("dealerHandValue")
     dealerHandValueElement.textContent = `${this.dealerTotal}`
@@ -86,17 +83,17 @@ export class BlackjackGame {
     }
   }
 
-  updateYourHand() {
-    const yourHandElement = document.getElementById("yourHand")
-    yourHandElement.innerHTML = ""
+  updatePlayerHand() {
+    const playerHandElement = document.getElementById("playerHand")
+    playerHandElement.innerHTML = ""
 
-    this.yourHand.cards.forEach((card) => {
+    this.playerHand.cards.forEach((card) => {
       const cardElement = document.createElement("div")
       const cardImage = document.createElement("img")
       cardImage.src = `assets/cards/${card}.png`
       cardElement.appendChild(cardImage)
       cardElement.className = "playingCard"
-      yourHandElement.appendChild(cardElement)
+      playerHandElement.appendChild(cardElement)
     })
   }
 
@@ -157,19 +154,19 @@ export class BlackjackGame {
     // Deal two cards to the player
     for (let i = 0; i < 2; i++) {
       const card = this.deck.deal()
-      this.yourHand.addCard(card)
+      this.playerHand.addCard(card)
     }
     this.updateGameVisibility()
     this.updateDealerHand()
-    this.updatePlayerHand()
+    this.updatePlayerSection()
 
     this.clearGameState()
     this.updateHideStartButton()
   }
 
-  updatePlayerHand() {
-    this.updateYourHandValue()
-    this.updateYourHand()
+  updatePlayerSection() {
+    this.updatePlayerHandValue()
+    this.updatePlayerHand()
   }
 
   hit() {
@@ -178,12 +175,12 @@ export class BlackjackGame {
     }
 
     const card = this.deck.deal()
-    this.yourHand.addCard(card)
+    this.playerHand.addCard(card)
 
     // Check if player busts
     const currentHandTotal = this.handleAce(
-      this.yourHand.getValue(),
-      this.yourHand.aceCount()
+      this.playerHand.getValue(),
+      this.playerHand.aceCount()
     )
 
     if (currentHandTotal > 21) {
@@ -192,7 +189,7 @@ export class BlackjackGame {
     } else if (currentHandTotal === 21) {
       this.canHit = false
     }
-    this.updatePlayerHand()
+    this.updatePlayerSection()
   }
 
   stand() {
@@ -200,23 +197,23 @@ export class BlackjackGame {
       this.dealerHand.getValue(),
       this.dealerHand.aceCount()
     )
-    this.yourTotal = this.handleAce(
-      this.yourHand.getValue(),
-      this.yourHand.aceCount()
+    this.playerTotal = this.handleAce(
+      this.playerHand.getValue(),
+      this.playerHand.aceCount()
     )
 
     this.canHit = false
     this.showHoleCard = true
 
-    if (this.yourTotal > 21) {
+    if (this.playerTotal > 21) {
       this.message = "Dealer Wins!"
     } else if (this.dealerTotal > 21) {
       this.message = "Player Wins!"
-    } else if (this.yourTotal === this.dealerTotal) {
+    } else if (this.playerTotal === this.dealerTotal) {
       this.message = "Push!"
-    } else if (this.yourTotal > this.dealerTotal) {
+    } else if (this.playerTotal > this.dealerTotal) {
       this.message = "Player Wins!"
-    } else if (this.dealerTotal > this.yourTotal) {
+    } else if (this.dealerTotal > this.playerTotal) {
       this.message = "Dealer Wins!"
     }
     this.updateDealerHand()

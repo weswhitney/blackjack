@@ -1,4 +1,4 @@
-import { BlackjackGame } from "./Blackjack.js"
+import { BlackjackGame } from "./BlackjackGame.js"
 
 const game = new BlackjackGame()
 
