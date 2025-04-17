@@ -43,14 +43,7 @@ export class BlackjackGame {
 
   updatePlayerHandValue() {
     const playerHandValueElement = document.getElementById("playerHandValue")
-
-    // const rawValue = this.playerHand.value
-    // const aceCount = this.playerHand.aceCount
-
-    // const adjustedValue = this.subtractAceWhenBust(rawValue, aceCount)
-    const adjustedValue = this.playerHand.value
-
-    playerHandValueElement.textContent = `${adjustedValue}`
+    playerHandValueElement.textContent = `${this.playerHand.value}`
   }
 
   updateHandTotals() {
@@ -166,7 +159,6 @@ export class BlackjackGame {
     if (!this.canHit) return
 
     this.dealCardToHand(this.playerHand)
-    // const currentHandTotal = this.calculatePlayerTotal()
 
     if (this.isBust(this.playerHand.value)) {
       this.handleBust()
@@ -191,15 +183,7 @@ export class BlackjackGame {
       this.dealCardToHand(this.dealerHand)
     }
 
-    // Use the dealerHand.value directly as the dealerTotal
     this.dealerTotal = this.dealerHand.value
-  }
-
-  calculatePlayerTotal() {
-    return this.subtractAceWhenBust(
-      this.playerHand.value,
-      this.playerHand.aceCount
-    )
   }
 
   isBust(total) {
@@ -216,20 +200,12 @@ export class BlackjackGame {
   }
 
   stand() {
-    // this.calculateTotals()
     this.playerTotal = this.playerHand.value
     this.canHit = false
     this.showHoleCard = true
 
     this.determineOutcome()
     this.updateUIAfterStand()
-  }
-
-  calculateTotals() {
-    this.playerTotal = this.subtractAceWhenBust(
-      this.playerHand.value,
-      this.playerHand.aceCount
-    )
   }
 
   determineOutcome() {
@@ -251,13 +227,5 @@ export class BlackjackGame {
     this.updateHandTotals()
     this.updateOutcome()
     this.showStartButton()
-  }
-
-  subtractAceWhenBust(handSum, aceCount) {
-    while (handSum > 21 && aceCount > 0) {
-      handSum -= 10
-      aceCount -= 1
-    }
-    return handSum
   }
 }

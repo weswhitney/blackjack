@@ -21,7 +21,7 @@ export class Hand {
       }
 
       return sum + parseInt(value) // Add numeric card values
-    }, 0) // Start with a sum of 0
+    }, 0)
 
     // Adjust Aces if total exceeds 21
     let aceCount = this.aceCount

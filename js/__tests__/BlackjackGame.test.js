@@ -40,11 +40,6 @@ describe("BlackjackGame", () => {
     expect(game.deck.shuffle).toHaveBeenCalled()
   })
 
-  test("handleAce adjusts hand value correctly", () => {
-    const result = game.subtractAceWhenBust(22, 1)
-    expect(result).toBe(12) // Ace adjusted from 11 to 1
-  })
-
   test("dealerTurn deals the initial hidden card to the dealer", () => {
     const mockCard = "A-H"
     game.deck.deal.mockReturnValueOnce(mockCard)
