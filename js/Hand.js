@@ -2,8 +2,7 @@ export class Hand {
   constructor(dealer = false) {
     this.dealer = dealer
     this.cards = []
-    // this.value = 0 // remove this
-  }
+}
 
   addCard(card) {
     this.cards.push(card)
