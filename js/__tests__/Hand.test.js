@@ -58,13 +58,13 @@ describe("Hand", () => {
       hand.addCard("A-H")
       hand.addCard("A-D")
       hand.addCard("10-S")
-      expect(hand.aceCount()).toBe(2)
+      expect(hand.aceCount).toBe(2)
     })
 
     test("returns 0 when there are no Aces", () => {
       hand.addCard("10-H")
       hand.addCard("5-D")
-      expect(hand.aceCount()).toBe(0)
+      expect(hand.aceCount).toBe(0)
     })
   })
 })

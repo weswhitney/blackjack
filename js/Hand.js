@@ -24,7 +24,7 @@ export class Hand {
     }, 0) // Start with a sum of 0
   }
 
-  aceCount() {
+  get aceCount() {
     return this.cards.filter((card) => card.startsWith("A")).length
   }
 }
