@@ -51,6 +51,22 @@ describe("Hand", () => {
       hand.addCard("3-S")
       expect(hand.value).toBe(14)
     })
+
+    test("calculates value for a mix of cards with multiple Aces", () => {
+      hand.addCard("A-H")
+      hand.addCard("3-S")
+      hand.addCard("A-S")
+      hand.addCard("10-D")
+      expect(hand.value).toBe(15)
+    })
+
+    test("calculates value for 4 Aces", () => {
+      hand.addCard("A-H")
+      hand.addCard("A-S")
+      hand.addCard("A-D")
+      hand.addCard("A-C")
+      expect(hand.value).toBe(14)
+    })
   })
 
   describe("aceCount", () => {

@@ -51,13 +51,13 @@ describe("BlackjackGame", () => {
   })
 
   test("dealerTurn continues dealing cards until dealer's total is at least 17", () => {
-    const mockCards = ["5-H", "6-D", "7-S"]
+    const mockCards = ["10-H", "6-D", "7-S"]
     game.deck.deal
       .mockReturnValueOnce(mockCards[0]) // First card
       .mockReturnValueOnce(mockCards[1]) // Second card
       .mockReturnValueOnce(mockCards[2]) // Third card
 
-    game.dealerHand.value = 10 // Initial value before loop
+    game.dealerHand.value = 10
     game.dealerHand.addCard.mockImplementation((card) => {
       if (card === "5-H") game.dealerHand.value = 15
       if (card === "6-D") game.dealerHand.value = 21
@@ -65,9 +65,62 @@ describe("BlackjackGame", () => {
 
     game.dealerTurn()
 
-    expect(game.dealerHand.addCard).toHaveBeenCalledWith("5-H")
+    expect(game.dealerHand.addCard).toHaveBeenCalledWith("10-H")
     expect(game.dealerHand.addCard).toHaveBeenCalledWith("6-D")
     expect(game.dealerHand.addCard).not.toHaveBeenCalledWith("7-S")
     expect(game.dealerHand.addCard).toHaveBeenCalledTimes(2)
+  })
+  test("determineOutcome sets message to 'Dealer Wins!' when player busts", () => {
+    game.playerTotal = 22
+    game.dealerTotal = 18
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Dealer Wins!")
+  })
+
+  test("determineOutcome sets message to 'Player Wins!' when dealer busts", () => {
+    game.playerTotal = 20
+    game.dealerTotal = 22
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Player Wins!")
+  })
+
+  test("determineOutcome sets message to 'Push!' when player and dealer totals are equal", () => {
+    game.playerTotal = 19
+    game.dealerTotal = 19
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Push!")
+  })
+
+  test("determineOutcome sets message to 'Player Wins!' when player total is greater than dealer total", () => {
+    game.playerTotal = 20
+    game.dealerTotal = 18
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Player Wins!")
+  })
+
+  test("determineOutcome sets message to 'Dealer Wins!' when dealer total is greater than player total", () => {
+    game.playerTotal = 18
+    game.dealerTotal = 20
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Dealer Wins!")
+  })
+
+  test("determineOutcome sets message to 'Dealer Wins!' when dealer and player both bust", () => {
+    game.playerTotal = 23
+    game.dealerTotal = 22
+
+    game.determineOutcome()
+
+    expect(game.message).toBe("Dealer Wins!")
   })
 })

@@ -49,7 +49,7 @@ describe("Deck", () => {
       for (let i = 0; i < 52; i++) {
         deck.deal()
       }
-      expect(deck.deal()).toBeUndefined()
+      expect(deck.deal()).toBeUndefined() // add error handling
     })
   })
 })
