@@ -44,10 +44,11 @@ export class BlackjackGame {
   updatePlayerHandValue() {
     const playerHandValueElement = document.getElementById("playerHandValue")
 
-    const rawValue = this.playerHand.value
-    const aceCount = this.playerHand.aceCount
+    // const rawValue = this.playerHand.value
+    // const aceCount = this.playerHand.aceCount
 
-    const adjustedValue = this.subtractAceWhenBust(rawValue, aceCount)
+    // const adjustedValue = this.subtractAceWhenBust(rawValue, aceCount)
+    const adjustedValue = this.playerHand.value
 
     playerHandValueElement.textContent = `${adjustedValue}`
   }
@@ -165,11 +166,11 @@ export class BlackjackGame {
     if (!this.canHit) return
 
     this.dealCardToHand(this.playerHand)
-    const currentHandTotal = this.calculatePlayerTotal()
+    // const currentHandTotal = this.calculatePlayerTotal()
 
-    if (this.isBust(currentHandTotal)) {
+    if (this.isBust(this.playerHand.value)) {
       this.handleBust()
-    } else if (this.isBlackjack(currentHandTotal)) {
+    } else if (this.isBlackjack(this.playerHand.value)) {
       this.canHit = false
     }
 
@@ -215,7 +216,8 @@ export class BlackjackGame {
   }
 
   stand() {
-    this.calculatePlayerTotal()
+    // this.calculateTotals()
+    this.playerTotal = this.playerHand.value
     this.canHit = false
     this.showHoleCard = true
 
@@ -223,7 +225,7 @@ export class BlackjackGame {
     this.updateUIAfterStand()
   }
 
-  calculatePlayerTotal() {
+  calculateTotals() {
     this.playerTotal = this.subtractAceWhenBust(
       this.playerHand.value,
       this.playerHand.aceCount
