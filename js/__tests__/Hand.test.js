@@ -20,7 +20,7 @@ describe("Hand", () => {
     })
   })
 
-  describe("getValue", () => {
+  describe("value", () => {
     test("calculates value for numeric cards", () => {
       hand.addCard("2-H")
       hand.addCard("5-D")
@@ -42,14 +42,14 @@ describe("Hand", () => {
     test("calculates value for multiple Aces", () => {
       hand.addCard("A-H")
       hand.addCard("A-D")
-      expect(hand.value).toBe(22) // adjust logic here?
+      expect(hand.value).toBe(12)
     })
 
     test("calculates value for a mix of cards", () => {
       hand.addCard("A-H")
       hand.addCard("10-D")
       hand.addCard("3-S")
-      expect(hand.value).toBe(24) // adjust logic here?
+      expect(hand.value).toBe(14)
     })
   })
 

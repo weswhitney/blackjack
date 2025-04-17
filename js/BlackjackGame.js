@@ -141,13 +141,8 @@ export class BlackjackGame {
   startGame() {
     this.resetState()
 
-    // Deal hidden card to dealer
-    this.dealCardToHand(this.dealerHand)
-
-    // Dealer draws until value is at least 17
-    while (this.dealerHand.value < 17) {
-      this.dealCardToHand(this.dealerHand)
-    }
+    // Deal cards to the dealer
+    this.dealerTurn()
 
     // Deal two cards to the player
     for (let i = 0; i < 2; i++) {
@@ -186,6 +181,19 @@ export class BlackjackGame {
     hand.addCard(card)
   }
 
+  dealerTurn() {
+    // Deal the initial hidden card to the dealer
+    this.dealCardToHand(this.dealerHand)
+
+    // Dealer draws cards until the total is at least 17
+    while (this.dealerHand.value < 17) {
+      this.dealCardToHand(this.dealerHand)
+    }
+
+    // Use the dealerHand.value directly as the dealerTotal
+    this.dealerTotal = this.dealerHand.value
+  }
+
   calculatePlayerTotal() {
     return this.subtractAceWhenBust(
       this.playerHand.value,
@@ -207,7 +215,7 @@ export class BlackjackGame {
   }
 
   stand() {
-    this.calculateTotals()
+    this.calculatePlayerTotal()
     this.canHit = false
     this.showHoleCard = true
 
@@ -215,11 +223,7 @@ export class BlackjackGame {
     this.updateUIAfterStand()
   }
 
-  calculateTotals() {
-    this.dealerTotal = this.subtractAceWhenBust(
-      this.dealerHand.value,
-      this.dealerHand.aceCount
-    )
+  calculatePlayerTotal() {
     this.playerTotal = this.subtractAceWhenBust(
       this.playerHand.value,
       this.playerHand.aceCount
@@ -247,11 +251,11 @@ export class BlackjackGame {
     this.showStartButton()
   }
 
-  subtractAceWhenBust(playerSum, playerAceCount) {
-    while (playerSum > 21 && playerAceCount > 0) {
-      playerSum -= 10
-      playerAceCount -= 1
+  subtractAceWhenBust(handSum, aceCount) {
+    while (handSum > 21 && aceCount > 0) {
+      handSum -= 10
+      aceCount -= 1
     }
-    return playerSum
+    return handSum
   }
 }
