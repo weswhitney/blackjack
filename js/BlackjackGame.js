@@ -44,7 +44,7 @@ export class BlackjackGame {
   updatePlayerHandValue() {
     const playerHandValueElement = document.getElementById("playerHandValue")
 
-    const rawValue = this.playerHand.getValue()
+    const rawValue = this.playerHand.value
     const aceCount = this.playerHand.aceCount()
 
     const adjustedValue = this.handleAce(rawValue, aceCount)
@@ -146,7 +146,7 @@ export class BlackjackGame {
     this.dealerHand.addCard(card)
 
     // Dealer draws until value is at least 17
-    while (this.dealerHand.getValue() < 17) {
+    while (this.dealerHand.value < 17) {
       const card = this.deck.deal()
       this.dealerHand.addCard(card)
     }
@@ -179,7 +179,7 @@ export class BlackjackGame {
 
     // Check if player busts
     const currentHandTotal = this.handleAce(
-      this.playerHand.getValue(),
+      this.playerHand.value,
       this.playerHand.aceCount()
     )
 
@@ -194,11 +194,11 @@ export class BlackjackGame {
 
   stand() {
     this.dealerTotal = this.handleAce(
-      this.dealerHand.getValue(),
+      this.dealerHand.value,
       this.dealerHand.aceCount()
     )
     this.playerTotal = this.handleAce(
-      this.playerHand.getValue(),
+      this.playerHand.value,
       this.playerHand.aceCount()
     )
 

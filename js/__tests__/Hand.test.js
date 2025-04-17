@@ -24,32 +24,32 @@ describe("Hand", () => {
     test("calculates value for numeric cards", () => {
       hand.addCard("2-H")
       hand.addCard("5-D")
-      expect(hand.getValue()).toBe(7)
+      expect(hand.value).toBe(7)
     })
 
     test("calculates value for face cards", () => {
       hand.addCard("J-H")
       hand.addCard("Q-D")
-      expect(hand.getValue()).toBe(20)
+      expect(hand.value).toBe(20)
     })
 
     test("calculates value for Aces as 11", () => {
       hand.addCard("A-H")
       hand.addCard("5-D")
-      expect(hand.getValue()).toBe(16)
+      expect(hand.value).toBe(16)
     })
 
     test("calculates value for multiple Aces", () => {
       hand.addCard("A-H")
       hand.addCard("A-D")
-      expect(hand.getValue()).toBe(22) // adjust logic here?
+      expect(hand.value).toBe(22) // adjust logic here?
     })
 
     test("calculates value for a mix of cards", () => {
       hand.addCard("A-H")
       hand.addCard("10-D")
       hand.addCard("3-S")
-      expect(hand.getValue()).toBe(24) // adjust logic here?
+      expect(hand.value).toBe(24) // adjust logic here?
     })
   })
 

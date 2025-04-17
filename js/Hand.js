@@ -2,13 +2,13 @@ export class Hand {
   constructor(dealer = false) {
     this.dealer = dealer
     this.cards = []
-}
+  }
 
   addCard(card) {
     this.cards.push(card)
   }
 
-  getValue() {
+  get value() {
     return this.cards.reduce((sum, card) => {
       const data = card.split("-")
       const value = data[0]
