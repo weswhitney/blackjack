@@ -70,7 +70,20 @@ export class BlackjackGame {
 
   updateOutcome() {
     const outcomeElement = document.getElementById("outcome")
+
     outcomeElement.textContent = `${this.message}`
+
+    if (this.message) {
+      outcomeElement.style.animationName = "fadeIn"
+
+      outcomeElement.addEventListener(
+        "animationend",
+        () => {
+          outcomeElement.style.animationName = ""
+        },
+        { once: true }
+      )
+    }
   }
 
   updateYourHand() {

@@ -13,6 +13,7 @@ body {
   height: 100vh;
   overflow: hidden;
   margin: 0;
+  background: radial-gradient(circle, rgb(21, 116, 72) 60%, black 100%);
 }
 
 .playingCard img {
@@ -30,4 +31,74 @@ body {
   display: flex;
   flex-direction: row;
   gap: 10px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+#outcome {
+  font-size: 3rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+}
+
+#startGame {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(45deg, #ff0000, #ff9900);
+  border: none;
+  border-radius: 10px;
+  padding: 15px 30px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 0 0 30px rgba(255, 153, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+#hit,
+#stand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  background: linear-gradient(45deg, #ffcc00, #ffaa00);
+  border: none;
+  border-radius: 10px;
+  padding: 15px 30px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 204, 0, 0.7), 0 0 30px rgba(255, 170, 0, 0.5);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin: 0 10px;
+}
+
+#hit:hover,
+#stand:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 204, 0, 0.9), 0 0 50px rgba(255, 170, 0, 0.7); /* Intensify glow on hover */
+}
+
+#hit:active,
+#stand:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 10px rgba(255, 204, 0, 0.5), 0 0 20px rgba(255, 170, 0, 0.3); /* Dim glow when clicked */
+}
+
+#gamePlayContainer > div:last-child {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
