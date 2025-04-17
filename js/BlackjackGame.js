@@ -27,7 +27,7 @@ export class BlackjackGame {
     this.deck.shuffle()
   }
 
-  updateGameVisibility() {
+  setGameVisibility() {
     const gameContainer = document.getElementById("gamePlayContainer")
     if (this.isPlaying) {
       gameContainer.style.display = "block"
@@ -36,7 +36,7 @@ export class BlackjackGame {
     }
   }
 
-  updateClearOutcome() {
+  clearOutcome() {
     const outcomeElement = document.getElementById("outcome")
     outcomeElement.textContent = ""
   }
@@ -47,7 +47,7 @@ export class BlackjackGame {
     const rawValue = this.playerHand.value
     const aceCount = this.playerHand.aceCount
 
-    const adjustedValue = this.handleAce(rawValue, aceCount)
+    const adjustedValue = this.subtractAceWhenBust(rawValue, aceCount)
 
     playerHandValueElement.textContent = `${adjustedValue}`
   }
@@ -60,7 +60,7 @@ export class BlackjackGame {
     dealerHandValueElement.textContent = `${this.dealerTotal}`
   }
 
-  updateClearDealerTotal() {
+  clearDealerTotal() {
     const dealerHandValueElement = document.getElementById("dealerHandValue")
     dealerHandValueElement.textContent = ""
   }
@@ -123,45 +123,42 @@ export class BlackjackGame {
     })
   }
 
-  updateHideStartButton() {
+  hideStartButton() {
     const startButtonElement = document.getElementById("startGame")
     startButtonElement.style.display = "none"
   }
 
-  updateShowStartButton() {
+  showStartButton() {
     const startButtonElement = document.getElementById("startGame")
     startButtonElement.style.display = "block"
   }
 
   clearGameState = () => {
-    this.updateClearDealerTotal()
-    this.updateClearOutcome()
+    this.clearDealerTotal()
+    this.clearOutcome()
   }
 
   startGame() {
     this.resetState()
 
     // Deal hidden card to dealer
-    const card = this.deck.deal()
-    this.dealerHand.addCard(card)
+    this.dealCardToHand(this.dealerHand)
 
     // Dealer draws until value is at least 17
     while (this.dealerHand.value < 17) {
-      const card = this.deck.deal()
-      this.dealerHand.addCard(card)
+      this.dealCardToHand(this.dealerHand)
     }
 
     // Deal two cards to the player
     for (let i = 0; i < 2; i++) {
-      const card = this.deck.deal()
-      this.playerHand.addCard(card)
+      this.dealCardToHand(this.playerHand)
     }
-    this.updateGameVisibility()
+    this.setGameVisibility()
     this.updateDealerHand()
     this.updatePlayerSection()
 
     this.clearGameState()
-    this.updateHideStartButton()
+    this.hideStartButton()
   }
 
   updatePlayerSection() {
@@ -170,59 +167,87 @@ export class BlackjackGame {
   }
 
   hit() {
-    if (!this.canHit) {
-      return
-    }
+    if (!this.canHit) return
 
-    const card = this.deck.deal()
-    this.playerHand.addCard(card)
+    this.dealCardToHand(this.playerHand)
+    const currentHandTotal = this.calculatePlayerTotal()
 
-    // Check if player busts
-    const currentHandTotal = this.handleAce(
-      this.playerHand.value,
-      this.playerHand.aceCount
-    )
-
-    if (currentHandTotal > 21) {
-      this.canHit = false
-      this.stand()
-    } else if (currentHandTotal === 21) {
+    if (this.isBust(currentHandTotal)) {
+      this.handleBust()
+    } else if (this.isBlackjack(currentHandTotal)) {
       this.canHit = false
     }
+
     this.updatePlayerSection()
   }
 
-  stand() {
-    this.dealerTotal = this.handleAce(
-      this.dealerHand.value,
-      this.dealerHand.aceCount
-    )
-    this.playerTotal = this.handleAce(
+  dealCardToHand(hand) {
+    const card = this.deck.deal()
+    hand.addCard(card)
+  }
+
+  calculatePlayerTotal() {
+    return this.subtractAceWhenBust(
       this.playerHand.value,
       this.playerHand.aceCount
     )
+  }
 
+  isBust(total) {
+    return total > 21
+  }
+
+  isBlackjack(total) {
+    return total === 21
+  }
+
+  handleBust() {
+    this.canHit = false
+    this.stand()
+  }
+
+  stand() {
+    this.calculateTotals()
     this.canHit = false
     this.showHoleCard = true
 
-    if (this.playerTotal > 21) {
+    this.determineOutcome()
+    this.updateUIAfterStand()
+  }
+
+  calculateTotals() {
+    this.dealerTotal = this.subtractAceWhenBust(
+      this.dealerHand.value,
+      this.dealerHand.aceCount
+    )
+    this.playerTotal = this.subtractAceWhenBust(
+      this.playerHand.value,
+      this.playerHand.aceCount
+    )
+  }
+
+  determineOutcome() {
+    if (this.isBust(this.playerTotal)) {
       this.message = "Dealer Wins!"
-    } else if (this.dealerTotal > 21) {
+    } else if (this.isBust(this.dealerTotal)) {
       this.message = "Player Wins!"
     } else if (this.playerTotal === this.dealerTotal) {
       this.message = "Push!"
     } else if (this.playerTotal > this.dealerTotal) {
       this.message = "Player Wins!"
-    } else if (this.dealerTotal > this.playerTotal) {
+    } else {
       this.message = "Dealer Wins!"
     }
+  }
+
+  updateUIAfterStand() {
     this.updateDealerHand()
     this.updateHandTotals()
     this.updateOutcome()
-    this.updateShowStartButton()
+    this.showStartButton()
   }
 
-  handleAce(playerSum, playerAceCount) {
+  subtractAceWhenBust(playerSum, playerAceCount) {
     while (playerSum > 21 && playerAceCount > 0) {
       playerSum -= 10
       playerAceCount -= 1

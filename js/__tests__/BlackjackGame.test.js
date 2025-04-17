@@ -41,7 +41,7 @@ describe("BlackjackGame", () => {
   })
 
   test("handleAce adjusts hand value correctly", () => {
-    const result = game.handleAce(22, 1)
+    const result = game.subtractAceWhenBust(22, 1)
     expect(result).toBe(12) // Ace adjusted from 11 to 1
   })
 })

@@ -61,9 +61,9 @@ export class Deck {
 
   shuffle() {
     for (let i = 0; i < this.cards.length; i++) {
-      const randCard = Math.floor(Math.random() * this.cards.length)
-      ;[this.cards[i], this.cards[randCard]] = [
-        this.cards[randCard],
+      const randomCard = Math.floor(Math.random() * this.cards.length)
+      ;[this.cards[i], this.cards[randomCard]] = [
+        this.cards[randomCard],
         this.cards[i],
       ]
     }
